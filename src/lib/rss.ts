@@ -1,9 +1,47 @@
 import Parser from "rss-parser";
-import type { NewsItem } from "./types";
+import type { NewsItem, CategorizedNewsItem } from "./types";
 
 const parser = new Parser({
   timeout: 10000,
 });
+
+const TRANSFER_KEYWORDS = [
+  "transfer", "sign", "signing", "signs", "deal", "loan",
+  "bid", "offer", "target", "want", "agree", "confirm",
+  "fee", "contract", "swap", "release", "departure",
+  "move", "join", "joins", "joined", "exit", "sell",
+  "buy", "purchase", "negotiate", "talks", "deadline",
+];
+
+const MATCH_REPORT_KEYWORDS = [
+  "match report", "player ratings", "post-match", "post match",
+  "recap", "result:", "results:", "analysis:", "reaction",
+  "highlights", "goals:", "goal:", "scored", "beaten",
+  "win ", "wins ", "won ", "lose ", "lost ", "draw ",
+  "defeat", "victory", "comeback",
+];
+
+const PREVIEW_KEYWORDS = [
+  "preview", "predicted lineup", "predicted line-up",
+  "team news", "how to watch", "kick-off", "kick off",
+  "build-up", "build up", "ahead of", "face ", "faces ",
+  "host ", "hosts ", "travel to", "preparing",
+];
+
+export function categorizeArticle(article: NewsItem): CategorizedNewsItem {
+  const text = `${article.title} ${article.contentSnippet}`.toLowerCase();
+
+  if (MATCH_REPORT_KEYWORDS.some((kw) => text.includes(kw))) {
+    return { ...article, category: "Match Reports" };
+  }
+  if (PREVIEW_KEYWORDS.some((kw) => text.includes(kw))) {
+    return { ...article, category: "Preview" };
+  }
+  if (TRANSFER_KEYWORDS.some((kw) => text.includes(kw))) {
+    return { ...article, category: "Transfers" };
+  }
+  return { ...article, category: "News" };
+}
 
 const FEEDS = [
   {

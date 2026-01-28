@@ -5,9 +5,10 @@ import { relativeTime } from "@/lib/utils";
 
 interface NewsArticleCardProps {
   article: NewsItem;
+  category?: string;
 }
 
-export function NewsArticleCard({ article }: NewsArticleCardProps) {
+export function NewsArticleCard({ article, category }: NewsArticleCardProps) {
   return (
     <a
       href={article.link}
@@ -27,6 +28,11 @@ export function NewsArticleCard({ article }: NewsArticleCardProps) {
             )}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
+                {category && (
+                  <Badge variant="outline" className="text-[10px] shrink-0">
+                    {category}
+                  </Badge>
+                )}
                 <Badge variant="secondary" className="text-[10px] shrink-0">
                   {article.source}
                 </Badge>

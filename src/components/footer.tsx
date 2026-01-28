@@ -5,6 +5,7 @@ const FOOTER_LINKS = [
   { href: "/squad", label: "Squad" },
   { href: "/news", label: "News" },
   { href: "/standings", label: "Standings" },
+  { href: "/history", label: "History" },
 ];
 
 export function Footer() {

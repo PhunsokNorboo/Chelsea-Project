@@ -1,21 +1,25 @@
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import type { SquadMember } from "@/lib/types";
 import { calculateAge, getInitials, positionLabel, formatContractDate } from "@/lib/utils";
 
 interface PlayerCardProps {
   player: SquadMember;
+  photoUrl?: string;
 }
 
-export function PlayerCard({ player }: PlayerCardProps) {
+export function PlayerCard({ player, photoUrl }: PlayerCardProps) {
   return (
     <Link href={`/player/${player.id}`}>
       <Card className="transition-colors hover:bg-muted/50 border-l-4 border-l-chelsea-blue h-full">
         <CardContent className="p-4 flex flex-col items-center text-center gap-3">
           <div className="relative">
             <Avatar className="h-16 w-16">
+              {photoUrl && (
+                <AvatarImage src={photoUrl} alt={player.name} />
+              )}
               <AvatarFallback className="bg-chelsea-blue text-white text-lg font-bold">
                 {getInitials(player.name)}
               </AvatarFallback>

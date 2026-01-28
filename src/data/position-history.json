@@ -1,0 +1,28 @@
+{
+  "season": "2025-26",
+  "positions": [
+    { "matchday": 1, "position": 14, "result": "L" },
+    { "matchday": 2, "position": 10, "result": "W" },
+    { "matchday": 3, "position": 8, "result": "W" },
+    { "matchday": 4, "position": 6, "result": "D" },
+    { "matchday": 5, "position": 7, "result": "L" },
+    { "matchday": 6, "position": 5, "result": "W" },
+    { "matchday": 7, "position": 4, "result": "W" },
+    { "matchday": 8, "position": 4, "result": "D" },
+    { "matchday": 9, "position": 5, "result": "L" },
+    { "matchday": 10, "position": 4, "result": "W" },
+    { "matchday": 11, "position": 4, "result": "W" },
+    { "matchday": 12, "position": 3, "result": "W" },
+    { "matchday": 13, "position": 4, "result": "D" },
+    { "matchday": 14, "position": 4, "result": "W" },
+    { "matchday": 15, "position": 3, "result": "W" },
+    { "matchday": 16, "position": 4, "result": "D" },
+    { "matchday": 17, "position": 4, "result": "W" },
+    { "matchday": 18, "position": 3, "result": "W" },
+    { "matchday": 19, "position": 4, "result": "D" },
+    { "matchday": 20, "position": 4, "result": "W" },
+    { "matchday": 21, "position": 3, "result": "W" },
+    { "matchday": 22, "position": 3, "result": "W" },
+    { "matchday": 23, "position": 2, "result": "W" }
+  ]
+}

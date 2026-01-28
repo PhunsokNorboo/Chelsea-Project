@@ -4,8 +4,9 @@ import { ArrowLeft } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { getPerson, getScorers } from "@/lib/api";
+import { getPlayerPhotos, findPlayerPhoto } from "@/lib/player-photos";
 import {
   calculateAge,
   getInitials,
@@ -24,12 +25,15 @@ export default async function PlayerPage({ params }: PageProps) {
   const personId = parseInt(id, 10);
   if (isNaN(personId)) notFound();
 
-  const [person, scorersData] = await Promise.all([
+  const [person, scorersData, fplPhotos] = await Promise.all([
     getPerson(personId),
     getScorers(),
+    getPlayerPhotos(),
   ]);
 
   if (!person) notFound();
+
+  const photoUrl = findPlayerPhoto(person.name, fplPhotos);
 
   const chelseaScorer = scorersData?.scorers.find(
     (s) => s.player.id === personId && s.team.id === 61
@@ -48,6 +52,9 @@ export default async function PlayerPage({ params }: PageProps) {
       <Card>
         <CardHeader className="flex flex-col items-center text-center pb-2">
           <Avatar className="h-24 w-24 mb-3">
+            {photoUrl && (
+              <AvatarImage src={photoUrl} alt={person.name} />
+            )}
             <AvatarFallback className="bg-chelsea-blue text-white text-2xl font-bold">
               {getInitials(person.name)}
             </AvatarFallback>

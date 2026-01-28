@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Users, Newspaper, Trophy } from "lucide-react";
+import { Home, Users, Newspaper, TableProperties, Medal } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home },
   { href: "/squad", label: "Squad", icon: Users },
   { href: "/news", label: "News", icon: Newspaper },
-  { href: "/standings", label: "Standings", icon: Trophy },
+  { href: "/standings", label: "Standings", icon: TableProperties },
+  { href: "/history", label: "History", icon: Medal },
 ] as const;
 
 interface NavLinksProps {

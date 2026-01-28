@@ -1,8 +1,8 @@
 import { Suspense } from "react";
-import { NewsFeed } from "@/components/news-feed";
 import { TweetWall } from "@/components/tweet-wall";
+import { NewsPageClient } from "@/components/news-page-client";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getNewsFeeds } from "@/lib/rss";
+import { getNewsFeeds, categorizeArticle } from "@/lib/rss";
 import type { CuratedTweetsData } from "@/lib/types";
 import tweetsData from "@/data/curated-tweets.json";
 
@@ -15,6 +15,7 @@ export const metadata = {
 
 export default async function NewsPage() {
   const articles = await getNewsFeeds();
+  const categorized = articles.map(categorizeArticle);
   const tweets = (tweetsData as CuratedTweetsData).tweets;
 
   return (
@@ -23,7 +24,6 @@ export default async function NewsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          <h2 className="text-lg font-semibold mb-4">Latest News</h2>
           <Suspense
             fallback={
               <div className="space-y-3">
@@ -33,7 +33,7 @@ export default async function NewsPage() {
               </div>
             }
           >
-            <NewsFeed articles={articles} />
+            <NewsPageClient articles={categorized} />
           </Suspense>
         </div>
 

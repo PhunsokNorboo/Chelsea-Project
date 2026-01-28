@@ -6,6 +6,7 @@ import type {
   TeamDetailResponse,
   PersonResponse,
   ScorersResponse,
+  Head2HeadResponse,
 } from "./types";
 
 const API_BASE = "https://api.football-data.org/v4";
@@ -78,6 +79,16 @@ export async function getPerson(id: number): Promise<PersonResponse | null> {
 
 export async function getScorers(limit: number = 50): Promise<ScorersResponse | null> {
   return fetchApi<ScorersResponse>(`/competitions/PL/scorers?limit=${limit}`, 120);
+}
+
+export async function getHead2Head(
+  matchId: number,
+  limit: number = 10
+): Promise<Head2HeadResponse | null> {
+  return fetchApi<Head2HeadResponse>(
+    `/matches/${matchId}/head2head?limit=${limit}`,
+    3600
+  );
 }
 
 export function getNextMatch(matches: Match[]): Match | null {

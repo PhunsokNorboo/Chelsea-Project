@@ -1,18 +1,22 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import type { LoanPlayer } from "@/lib/types";
 import { getInitials, formatContractDate } from "@/lib/utils";
 
 interface LoanPlayerCardProps {
   player: LoanPlayer;
+  photoUrl?: string;
 }
 
-export function LoanPlayerCard({ player }: LoanPlayerCardProps) {
+export function LoanPlayerCard({ player, photoUrl }: LoanPlayerCardProps) {
   return (
     <Card className="border-l-4 border-l-chelsea-gold border-dashed h-full">
       <CardContent className="p-4 flex flex-col items-center text-center gap-3">
         <Avatar className="h-16 w-16">
+          {photoUrl && (
+            <AvatarImage src={photoUrl} alt={player.name} />
+          )}
           <AvatarFallback className="bg-chelsea-gold/20 text-chelsea-gold text-lg font-bold">
             {getInitials(player.name)}
           </AvatarFallback>

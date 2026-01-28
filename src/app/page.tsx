@@ -4,6 +4,10 @@ import { FormGuide } from "@/components/form-guide";
 import { StandingsTable } from "@/components/standings-table";
 import { ClubInfo } from "@/components/club-info";
 import { SeasonStats } from "@/components/season-stats";
+import { CalendarExportButton } from "@/components/calendar-export-button";
+import { SeasonProgress } from "@/components/season-progress";
+import type { PositionHistoryData } from "@/lib/types";
+import positionHistoryData from "@/data/position-history.json";
 import {
   getMatches,
   getStandings,
@@ -27,6 +31,9 @@ export default async function Home() {
   const nextMatch = getNextMatch(matches);
   const form = getRecentForm(matches);
   const competitions = getCompetitionFilter(matches);
+  const upcomingMatches = matches.filter(
+    (m) => m.status === "SCHEDULED" || m.status === "TIMED"
+  );
 
   const plStandings =
     standingsData?.standings?.find((s) => s.type === "TOTAL")?.table ?? [];
@@ -42,13 +49,18 @@ export default async function Home() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           <section>
-            <h2 className="text-2xl font-bold mb-4">Fixtures & Results</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold">Fixtures & Results</h2>
+              <CalendarExportButton matches={upcomingMatches} />
+            </div>
             <FixturesList matches={matches} competitions={competitions} />
           </section>
         </div>
 
         <aside className="space-y-6">
           {form.length > 0 && <FormGuide form={form} />}
+
+          <SeasonProgress data={positionHistoryData as PositionHistoryData} />
 
           {plStandings.length > 0 && (
             <StandingsTable

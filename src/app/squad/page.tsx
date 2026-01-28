@@ -1,6 +1,8 @@
 import { getTeam } from "@/lib/api";
 import { SquadRoster } from "@/components/squad-roster";
 import type { SquadMember, LoansData } from "@/lib/types";
+import { getPlayerPhotos, findPlayerPhoto } from "@/lib/player-photos";
+import { mapPositionGroup } from "@/lib/utils";
 import loansData from "@/data/loans.json";
 
 export const revalidate = 120;
@@ -11,14 +13,25 @@ export const metadata = {
 };
 
 export default async function SquadPage() {
-  const team = await getTeam();
+  const [team, fplPhotos] = await Promise.all([getTeam(), getPlayerPhotos()]);
   const loans = (loansData as LoansData).players;
 
   const squad = team?.squad ?? [];
 
+  // Build photo URL map keyed by player name
+  const photoUrls: Record<string, string> = {};
+  for (const player of squad) {
+    const url = findPlayerPhoto(player.name, fplPhotos);
+    if (url) photoUrls[player.name] = url;
+  }
+  for (const player of loans) {
+    const url = findPlayerPhoto(player.name, fplPhotos);
+    if (url) photoUrls[player.name] = url;
+  }
+
   const grouped: Record<string, SquadMember[]> = {};
   for (const player of squad) {
-    const pos = player.position ?? "Unknown";
+    const pos = mapPositionGroup(player.position);
     if (!grouped[pos]) grouped[pos] = [];
     grouped[pos].push(player);
   }
@@ -40,7 +53,7 @@ export default async function SquadPage() {
       </div>
 
       {squad.length > 0 ? (
-        <SquadRoster grouped={grouped} loans={loans} />
+        <SquadRoster grouped={grouped} loans={loans} photoUrls={photoUrls} />
       ) : (
         <div className="text-center py-16">
           <h2 className="text-xl font-semibold mb-2">No Squad Data</h2>

@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type { StandingEntry } from "@/lib/types";
 import {
   Card,
@@ -60,9 +61,9 @@ export function StandingsTable({
                   entry.position > 6;
 
                 return (
-                  <>
+                  <Fragment key={entry.team.id}>
                     {showGap && (
-                      <tr key="gap">
+                      <tr>
                         <td
                           colSpan={8}
                           className="text-center py-1 text-muted-foreground text-xs"
@@ -72,7 +73,6 @@ export function StandingsTable({
                       </tr>
                     )}
                     <tr
-                      key={entry.team.id}
                       className={`border-b last:border-0 ${
                         isChelsea
                           ? "bg-chelsea-blue/10 font-semibold"
@@ -114,7 +114,7 @@ export function StandingsTable({
                         {entry.points}
                       </td>
                     </tr>
-                  </>
+                  </Fragment>
                 );
               })}
             </tbody>

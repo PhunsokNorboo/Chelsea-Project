@@ -129,7 +129,7 @@ export interface SquadMember {
   name: string;
   firstName: string | null;
   lastName: string | null;
-  position: "Goalkeeper" | "Defence" | "Midfield" | "Offence" | null;
+  position: string | null;
   dateOfBirth: string;
   nationality: string;
   shirtNumber: number | null;
@@ -225,6 +225,51 @@ export interface ScorersResponse {
     currentMatchday: number;
   };
   scorers: Scorer[];
+}
+
+// --- Head-to-Head ---
+
+export interface Head2HeadAggregates {
+  numberOfMatches: number;
+  totalGoals: number;
+  homeTeam: {
+    id: number;
+    name: string;
+    wins: number;
+    draws: number;
+    losses: number;
+  };
+  awayTeam: {
+    id: number;
+    name: string;
+    wins: number;
+    draws: number;
+    losses: number;
+  };
+}
+
+export interface Head2HeadResponse {
+  aggregates: Head2HeadAggregates;
+  matches: Match[];
+}
+
+// --- Position History ---
+
+export interface PositionHistoryEntry {
+  matchday: number;
+  position: number;
+  result?: "W" | "D" | "L";
+}
+
+export interface PositionHistoryData {
+  season: string;
+  positions: PositionHistoryEntry[];
+}
+
+// --- Categorized News ---
+
+export interface CategorizedNewsItem extends NewsItem {
+  category: string;
 }
 
 // --- Loans (Static Data) ---

@@ -114,14 +114,33 @@ export function relativeTime(dateStr: string): string {
   });
 }
 
+const POSITION_GROUP_MAP: Record<string, string> = {
+  "Goalkeeper": "Goalkeeper",
+  "Centre-Back": "Defence",
+  "Left-Back": "Defence",
+  "Right-Back": "Defence",
+  "Defence": "Defence",
+  "Defensive Midfield": "Midfield",
+  "Central Midfield": "Midfield",
+  "Attacking Midfield": "Midfield",
+  "Left Winger": "Midfield",
+  "Right Winger": "Midfield",
+  "Midfield": "Midfield",
+  "Centre-Forward": "Offence",
+  "Second Striker": "Offence",
+  "Left Midfield": "Midfield",
+  "Right Midfield": "Midfield",
+  "Offence": "Offence",
+};
+
+export function mapPositionGroup(position: string | null): string {
+  if (!position) return "Unknown";
+  return POSITION_GROUP_MAP[position] ?? "Unknown";
+}
+
 export function positionLabel(position: string | null): string {
-  const map: Record<string, string> = {
-    Goalkeeper: "Goalkeeper",
-    Defence: "Defender",
-    Midfield: "Midfielder",
-    Offence: "Forward",
-  };
-  return position ? (map[position] ?? position) : "Unknown";
+  if (!position) return "Unknown";
+  return position;
 }
 
 export function positionGroupLabel(position: string): string {

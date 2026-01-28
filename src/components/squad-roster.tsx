@@ -10,11 +10,12 @@ import { positionGroupLabel } from "@/lib/utils";
 interface SquadRosterProps {
   grouped: Record<string, SquadMember[]>;
   loans: LoanPlayer[];
+  photoUrls: Record<string, string>;
 }
 
 const TAB_ORDER = ["Goalkeeper", "Defence", "Midfield", "Offence", "loans"];
 
-export function SquadRoster({ grouped, loans }: SquadRosterProps) {
+export function SquadRoster({ grouped, loans, photoUrls }: SquadRosterProps) {
   const [activeTab, setActiveTab] = useState("Goalkeeper");
 
   const availableTabs = TAB_ORDER.filter(
@@ -38,10 +39,10 @@ export function SquadRoster({ grouped, loans }: SquadRosterProps) {
       <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {activeTab === "loans"
           ? loans.map((player) => (
-              <LoanPlayerCard key={player.name} player={player} />
+              <LoanPlayerCard key={player.name} player={player} photoUrl={photoUrls[player.name]} />
             ))
           : grouped[activeTab]?.map((player) => (
-              <PlayerCard key={player.id} player={player} />
+              <PlayerCard key={player.id} player={player} photoUrl={photoUrls[player.name]} />
             ))}
       </div>
     </div>
