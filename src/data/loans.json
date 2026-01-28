@@ -1,0 +1,113 @@
+{
+  "lastUpdated": "2026-01-28",
+  "players": [
+    {
+      "name": "Nicolas Jackson",
+      "position": "Forward",
+      "loanClub": "Bayern Munich",
+      "loanLeague": "Bundesliga",
+      "loanStart": "2025-07-01",
+      "loanEnd": "2026-06-30",
+      "nationality": "Senegal"
+    },
+    {
+      "name": "Geovany Quenda",
+      "position": "Winger",
+      "loanClub": "Sporting CP",
+      "loanLeague": "Liga Portugal",
+      "loanStart": "2025-07-01",
+      "loanEnd": "2026-06-30",
+      "nationality": "Portugal"
+    },
+    {
+      "name": "Aarón Anselmino",
+      "position": "Defender",
+      "loanClub": "Borussia Dortmund",
+      "loanLeague": "Bundesliga",
+      "loanStart": "2025-07-01",
+      "loanEnd": "2026-06-30",
+      "nationality": "Argentina"
+    },
+    {
+      "name": "Kendry Páez",
+      "position": "Midfielder",
+      "loanClub": "RC Strasbourg",
+      "loanLeague": "Ligue 1",
+      "loanStart": "2025-07-01",
+      "loanEnd": "2026-06-30",
+      "nationality": "Ecuador"
+    },
+    {
+      "name": "Mike Penders",
+      "position": "Goalkeeper",
+      "loanClub": "RC Strasbourg",
+      "loanLeague": "Ligue 1",
+      "loanStart": "2025-07-01",
+      "loanEnd": "2026-06-30",
+      "nationality": "Belgium"
+    },
+    {
+      "name": "Mamadou Sarr",
+      "position": "Defender",
+      "loanClub": "RC Strasbourg",
+      "loanLeague": "Ligue 1",
+      "loanStart": "2025-07-01",
+      "loanEnd": "2026-06-30",
+      "nationality": "France"
+    },
+    {
+      "name": "David Datro Fofana",
+      "position": "Forward",
+      "loanClub": "Fatih Karagümrük",
+      "loanLeague": "Süper Lig",
+      "loanStart": "2025-09-13",
+      "loanEnd": "2026-06-30",
+      "nationality": "Ivory Coast"
+    },
+    {
+      "name": "Deivid Washington",
+      "position": "Forward",
+      "loanClub": "Strasbourg",
+      "loanLeague": "Ligue 1",
+      "loanStart": "2025-07-01",
+      "loanEnd": "2026-06-30",
+      "nationality": "Brazil"
+    },
+    {
+      "name": "Caleb Wiley",
+      "position": "Defender",
+      "loanClub": "Strasbourg",
+      "loanLeague": "Ligue 1",
+      "loanStart": "2025-07-01",
+      "loanEnd": "2026-06-30",
+      "nationality": "United States"
+    },
+    {
+      "name": "Teddy Sharman-Lowe",
+      "position": "Goalkeeper",
+      "loanClub": "Bolton Wanderers",
+      "loanLeague": "League One",
+      "loanStart": "2025-07-01",
+      "loanEnd": "2026-06-30",
+      "nationality": "England"
+    },
+    {
+      "name": "Jimmy-Jay Morgan",
+      "position": "Forward",
+      "loanClub": "Peterborough United",
+      "loanLeague": "League One",
+      "loanStart": "2025-07-01",
+      "loanEnd": "2026-06-30",
+      "nationality": "England"
+    },
+    {
+      "name": "Facundo Buonanotte",
+      "position": "Midfielder",
+      "loanClub": "Leeds United",
+      "loanLeague": "Championship",
+      "loanStart": "2026-01-15",
+      "loanEnd": "2026-06-30",
+      "nationality": "Argentina"
+    }
+  ]
+}

@@ -2,9 +2,13 @@ import { Countdown } from "@/components/countdown";
 import { FixturesList } from "@/components/fixtures-list";
 import { FormGuide } from "@/components/form-guide";
 import { StandingsTable } from "@/components/standings-table";
+import { ClubInfo } from "@/components/club-info";
+import { SeasonStats } from "@/components/season-stats";
 import {
   getMatches,
   getStandings,
+  getTeam,
+  getScorers,
   getNextMatch,
   getRecentForm,
   getCompetitionFilter,
@@ -13,9 +17,11 @@ import {
 export const revalidate = 60;
 
 export default async function Home() {
-  const [matches, standingsData] = await Promise.all([
+  const [matches, standingsData, team, scorersData] = await Promise.all([
     getMatches(),
     getStandings(),
+    getTeam(),
+    getScorers(),
   ]);
 
   const nextMatch = getNextMatch(matches);
@@ -26,6 +32,8 @@ export default async function Home() {
     standingsData?.standings?.find((s) => s.type === "TOTAL")?.table ?? [];
   const chelseaEntry = plStandings.find((e) => e.team.id === 61);
   const chelseaPosition = chelseaEntry?.position ?? 0;
+
+  const scorers = scorersData?.scorers ?? [];
 
   return (
     <div className="container mx-auto px-4 py-6 space-y-8">
@@ -48,6 +56,10 @@ export default async function Home() {
               chelseaPosition={chelseaPosition}
             />
           )}
+
+          <SeasonStats scorers={scorers} />
+
+          {team && <ClubInfo team={team} />}
         </aside>
       </div>
 

@@ -121,3 +121,152 @@ export interface MatchDetailResponse {
 }
 
 export type ResultType = "W" | "D" | "L";
+
+// --- Squad / Team Detail ---
+
+export interface SquadMember {
+  id: number;
+  name: string;
+  firstName: string | null;
+  lastName: string | null;
+  position: "Goalkeeper" | "Defence" | "Midfield" | "Offence" | null;
+  dateOfBirth: string;
+  nationality: string;
+  shirtNumber: number | null;
+  contract: {
+    start: string | null;
+    until: string | null;
+  } | null;
+}
+
+export interface Coach {
+  id: number;
+  name: string;
+  firstName: string | null;
+  lastName: string | null;
+  dateOfBirth: string;
+  nationality: string;
+  contract: {
+    start: string | null;
+    until: string | null;
+  } | null;
+}
+
+export interface TeamDetailResponse {
+  id: number;
+  name: string;
+  shortName: string;
+  tla: string;
+  crest: string;
+  address: string;
+  website: string;
+  founded: number;
+  clubColors: string;
+  venue: string;
+  coach: Coach;
+  squad: SquadMember[];
+  runningCompetitions: Competition[];
+  lastUpdated: string;
+}
+
+// --- Person (Player Detail) ---
+
+export interface PersonResponse {
+  id: number;
+  name: string;
+  firstName: string | null;
+  lastName: string | null;
+  dateOfBirth: string;
+  nationality: string;
+  position: string | null;
+  shirtNumber: number | null;
+  currentTeam: {
+    id: number;
+    name: string;
+    shortName: string;
+    tla: string;
+    crest: string;
+    venue: string;
+    runningCompetitions: Competition[];
+    contract: {
+      start: string | null;
+      until: string | null;
+    } | null;
+  };
+  lastUpdated: string;
+}
+
+// --- Scorers ---
+
+export interface Scorer {
+  player: {
+    id: number;
+    name: string;
+    firstName: string | null;
+    lastName: string | null;
+    dateOfBirth: string;
+    nationality: string;
+    position: string;
+    shirtNumber: number | null;
+  };
+  team: Team;
+  goals: number;
+  assists: number | null;
+  penalties: number | null;
+}
+
+export interface ScorersResponse {
+  count: number;
+  competition: Competition;
+  season: {
+    id: number;
+    startDate: string;
+    endDate: string;
+    currentMatchday: number;
+  };
+  scorers: Scorer[];
+}
+
+// --- Loans (Static Data) ---
+
+export interface LoanPlayer {
+  name: string;
+  position: string;
+  loanClub: string;
+  loanLeague: string;
+  loanStart: string;
+  loanEnd: string;
+  nationality: string;
+  shirtNumber?: number;
+  appearances?: number;
+  goals?: number;
+}
+
+export interface LoansData {
+  lastUpdated: string;
+  players: LoanPlayer[];
+}
+
+// --- News (RSS) ---
+
+export interface NewsItem {
+  title: string;
+  link: string;
+  pubDate: string;
+  contentSnippet: string;
+  source: string;
+  imageUrl?: string;
+}
+
+// --- Curated Tweets ---
+
+export interface CuratedTweet {
+  id: string;
+  category: "transfers" | "news" | "analysis" | "matchday";
+  label?: string;
+}
+
+export interface CuratedTweetsData {
+  lastUpdated: string;
+  tweets: CuratedTweet[];
+}

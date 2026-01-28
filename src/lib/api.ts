@@ -3,6 +3,9 @@ import type {
   MatchesResponse,
   MatchDetailResponse,
   StandingsResponse,
+  TeamDetailResponse,
+  PersonResponse,
+  ScorersResponse,
 } from "./types";
 
 const API_BASE = "https://api.football-data.org/v4";
@@ -63,6 +66,18 @@ export async function getMatch(id: number): Promise<MatchDetailResponse | null> 
 
 export async function getStandings(): Promise<StandingsResponse | null> {
   return fetchApi<StandingsResponse>(`/competitions/PL/standings`);
+}
+
+export async function getTeam(): Promise<TeamDetailResponse | null> {
+  return fetchApi<TeamDetailResponse>(`/teams/${CHELSEA_ID}`, 120);
+}
+
+export async function getPerson(id: number): Promise<PersonResponse | null> {
+  return fetchApi<PersonResponse>(`/persons/${id}`, 120);
+}
+
+export async function getScorers(limit: number = 50): Promise<ScorersResponse | null> {
+  return fetchApi<ScorersResponse>(`/competitions/PL/scorers?limit=${limit}`, 120);
 }
 
 export function getNextMatch(matches: Match[]): Match | null {

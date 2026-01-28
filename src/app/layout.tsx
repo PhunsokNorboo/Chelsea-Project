@@ -16,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Chelsea FC Fixtures",
+  title: "Chelsea FC Hub",
   description:
-    "Upcoming fixtures, results, standings and match details for Chelsea Football Club.",
+    "Fixtures, squad, news, standings and everything Chelsea Football Club.",
 };
 
 export default function RootLayout({
