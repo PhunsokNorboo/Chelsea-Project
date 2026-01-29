@@ -4,55 +4,64 @@
       "name": "Premier League",
       "count": 6,
       "years": [1955, 2005, 2006, 2010, 2015, 2017],
-      "description": "First Division / Premier League titles"
+      "description": "First Division / Premier League titles",
+      "image": "/images/trophies/premier-league.jpg"
     },
     {
       "name": "Champions League",
       "count": 2,
       "years": [2012, 2021],
-      "description": "UEFA Champions League / European Cup"
+      "description": "UEFA Champions League / European Cup",
+      "image": "/images/trophies/champions-league.jpg"
     },
     {
       "name": "Europa League",
       "count": 2,
       "years": [2013, 2019],
-      "description": "UEFA Europa League"
+      "description": "UEFA Europa League",
+      "image": "/images/trophies/europa-league.jpg"
     },
     {
       "name": "FA Cup",
       "count": 8,
       "years": [1970, 1997, 2000, 2007, 2009, 2010, 2012, 2018],
-      "description": "The oldest football cup competition in the world"
+      "description": "The oldest football cup competition in the world",
+      "image": "/images/trophies/fa-cup.jpg"
     },
     {
       "name": "League Cup",
       "count": 5,
       "years": [1965, 1998, 2005, 2007, 2015],
-      "description": "EFL Cup / Carabao Cup / League Cup"
+      "description": "EFL Cup / Carabao Cup / League Cup",
+      "image": "/images/trophies/league-cup.jpg"
     },
     {
       "name": "Cup Winners' Cup",
       "count": 2,
       "years": [1971, 1998],
-      "description": "UEFA Cup Winners' Cup"
+      "description": "UEFA Cup Winners' Cup",
+      "image": "/images/trophies/cup-winners-cup.jpg"
     },
     {
       "name": "UEFA Super Cup",
       "count": 2,
       "years": [1998, 2021],
-      "description": "UEFA Super Cup"
+      "description": "UEFA Super Cup",
+      "image": "/images/trophies/super-cup.png"
     },
     {
       "name": "Club World Cup",
       "count": 1,
       "years": [2022],
-      "description": "FIFA Club World Cup"
+      "description": "FIFA Club World Cup",
+      "image": "/images/trophies/club-world-cup.png"
     },
     {
       "name": "Community Shield",
       "count": 4,
       "years": [1955, 2000, 2005, 2009],
-      "description": "FA Charity Shield / Community Shield"
+      "description": "FA Charity Shield / Community Shield",
+      "image": "/images/trophies/community-shield.jpg"
     }
   ],
   "legends": [
@@ -62,7 +71,8 @@
       "era": "2001–2014",
       "appearances": 648,
       "goals": 211,
-      "description": "Chelsea's all-time top scorer. The ultimate box-to-box midfielder who defined an era at Stamford Bridge."
+      "description": "Chelsea's all-time top scorer. The ultimate box-to-box midfielder who defined an era at Stamford Bridge.",
+      "image": "/images/legends/frank-lampard.jpg"
     },
     {
       "name": "John Terry",
@@ -70,7 +80,8 @@
       "era": "1998–2017",
       "appearances": 717,
       "goals": 67,
-      "description": "Captain, leader, legend. Chelsea's greatest ever defender and the heart of the team for nearly two decades."
+      "description": "Captain, leader, legend. Chelsea's greatest ever defender and the heart of the team for nearly two decades.",
+      "image": "/images/legends/john-terry.jpg"
     },
     {
       "name": "Didier Drogba",
@@ -78,7 +89,8 @@
       "era": "2004–2012, 2014–2015",
       "appearances": 381,
       "goals": 164,
-      "description": "The king of finals. His Munich header in 2012 sealed Chelsea's first Champions League title."
+      "description": "The king of finals. His Munich header in 2012 sealed Chelsea's first Champions League title.",
+      "image": "/images/legends/didier-drogba.jpg"
     },
     {
       "name": "Eden Hazard",
@@ -86,7 +98,8 @@
       "era": "2012–2019",
       "appearances": 352,
       "goals": 110,
-      "description": "Belgian wizard whose dribbling and flair lit up Stamford Bridge. Two Premier League titles, two Player of the Year awards."
+      "description": "Belgian wizard whose dribbling and flair lit up Stamford Bridge. Two Premier League titles, two Player of the Year awards.",
+      "image": "/images/legends/eden-hazard.jpg"
     },
     {
       "name": "Gianfranco Zola",
@@ -94,7 +107,8 @@
       "era": "1996–2003",
       "appearances": 312,
       "goals": 80,
-      "description": "The magic box. Voted Chelsea's greatest ever player by the fans. Pure genius with the ball at his feet."
+      "description": "The magic box. Voted Chelsea's greatest ever player by the fans. Pure genius with the ball at his feet.",
+      "image": "/images/legends/gianfranco-zola.jpg"
     },
     {
       "name": "Petr Čech",
@@ -102,7 +116,8 @@
       "era": "2004–2015",
       "appearances": 494,
       "goals": 0,
-      "description": "Chelsea's greatest goalkeeper. Holds the Premier League record for most clean sheets (202)."
+      "description": "Chelsea's greatest goalkeeper. Holds the Premier League record for most clean sheets (202).",
+      "image": "/images/legends/petr-cech.jpg"
     },
     {
       "name": "Ron Harris",
@@ -134,7 +149,8 @@
       "era": "2006–2014",
       "appearances": 338,
       "goals": 7,
-      "description": "Widely regarded as the best left-back in Premier League history. Won the Champions League, Europa League, and four FA Cups."
+      "description": "Widely regarded as the best left-back in Premier League history. Won the Champions League, Europa League, and four FA Cups.",
+      "image": "/images/legends/ashley-cole.jpg"
     },
     {
       "name": "Marcel Desailly",
@@ -142,7 +158,8 @@
       "era": "1998–2004",
       "appearances": 222,
       "goals": 7,
-      "description": "World Cup winner who brought world-class defending and leadership to Chelsea's backline."
+      "description": "World Cup winner who brought world-class defending and leadership to Chelsea's backline.",
+      "image": "/images/legends/marcel-desailly.jpg"
     },
     {
       "name": "N'Golo Kanté",
@@ -150,7 +167,8 @@
       "era": "2016–2023",
       "appearances": 269,
       "goals": 13,
-      "description": "The engine room. Won the Premier League, Champions League, and was named UEFA Men's Player of the Year in 2021."
+      "description": "The engine room. Won the Premier League, Champions League, and was named UEFA Men's Player of the Year in 2021.",
+      "image": "/images/legends/ngolo-kante.jpg"
     },
     {
       "name": "Jimmy Greaves",
@@ -174,7 +192,8 @@
       "era": "1990–2001",
       "appearances": 445,
       "goals": 76,
-      "description": "Captain Wise led Chelsea through a transformative era, winning the FA Cup, League Cup, and Cup Winners' Cup."
+      "description": "Captain Wise led Chelsea through a transformative era, winning the FA Cup, League Cup, and Cup Winners' Cup.",
+      "image": "/images/legends/dennis-wise.jpg"
     }
   ],
   "records": [

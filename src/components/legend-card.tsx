@@ -1,5 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getInitials } from "@/lib/utils";
 
 interface LegendCardProps {
   name: string;
@@ -8,6 +10,7 @@ interface LegendCardProps {
   appearances: number;
   goals: number;
   description: string;
+  image?: string;
 }
 
 export function LegendCard({
@@ -17,18 +20,31 @@ export function LegendCard({
   appearances,
   goals,
   description,
+  image,
 }: LegendCardProps) {
   return (
     <Card className="border-l-4 border-l-chelsea-blue h-full">
       <CardContent className="p-4 flex flex-col gap-2">
-        <div className="flex items-start justify-between gap-2">
-          <div>
-            <h3 className="font-bold text-sm">{name}</h3>
-            <p className="text-xs text-muted-foreground">{era}</p>
+        <div className="flex items-start gap-3">
+          <Avatar className="h-14 w-14 shrink-0">
+            {image && (
+              <AvatarImage src={image} alt={name} className="object-cover" />
+            )}
+            <AvatarFallback className="bg-chelsea-blue text-white text-sm font-bold">
+              {getInitials(name)}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <h3 className="font-bold text-sm">{name}</h3>
+                <p className="text-xs text-muted-foreground">{era}</p>
+              </div>
+              <Badge variant="secondary" className="text-xs shrink-0">
+                {position}
+              </Badge>
+            </div>
           </div>
-          <Badge variant="secondary" className="text-xs shrink-0">
-            {position}
-          </Badge>
         </div>
         <p className="text-xs text-muted-foreground leading-relaxed">
           {description}

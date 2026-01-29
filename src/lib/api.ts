@@ -81,6 +81,10 @@ export async function getScorers(limit: number = 50): Promise<ScorersResponse | 
   return fetchApi<ScorersResponse>(`/competitions/PL/scorers?limit=${limit}`, 120);
 }
 
+export async function getClScorers(limit: number = 50): Promise<ScorersResponse | null> {
+  return fetchApi<ScorersResponse>(`/competitions/CL/scorers?limit=${limit}`, 120);
+}
+
 export async function getHead2Head(
   matchId: number,
   limit: number = 10

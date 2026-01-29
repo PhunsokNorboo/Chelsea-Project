@@ -1,8 +1,42 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Head2HeadResponse } from "@/lib/types";
-import { formatMatchDate } from "@/lib/utils";
+import type { Head2HeadResponse, Match } from "@/lib/types";
 
 const CHELSEA_ID = 61;
+
+function formatShortDate(utcDate: string): string {
+  return new Date(utcDate).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+  });
+}
+
+function calculateStats(matches: Match[]) {
+  let chelseaWins = 0;
+  let draws = 0;
+  let opponentWins = 0;
+  let opponentName = "";
+
+  for (const match of matches) {
+    if (match.status !== "FINISHED") continue;
+
+    const chelseaIsHome = match.homeTeam.id === CHELSEA_ID;
+    const opponent = chelseaIsHome ? match.awayTeam : match.homeTeam;
+    if (!opponentName) opponentName = opponent.name;
+
+    if (match.score.winner === "DRAW") {
+      draws++;
+    } else if (
+      (chelseaIsHome && match.score.winner === "HOME_TEAM") ||
+      (!chelseaIsHome && match.score.winner === "AWAY_TEAM")
+    ) {
+      chelseaWins++;
+    } else {
+      opponentWins++;
+    }
+  }
+
+  return { chelseaWins, draws, opponentWins, opponentName };
+}
 
 interface HeadToHeadProps {
   data: Head2HeadResponse;
@@ -10,21 +44,15 @@ interface HeadToHeadProps {
 
 export function HeadToHead({ data }: HeadToHeadProps) {
   const { aggregates, matches } = data;
-  if (aggregates.numberOfMatches === 0) return null;
+  if (matches.length === 0) return null;
 
-  // Determine Chelsea's perspective
-  const chelseaIsHome = aggregates.homeTeam.id === CHELSEA_ID;
-  const chelseaStats = chelseaIsHome
-    ? aggregates.homeTeam
-    : aggregates.awayTeam;
-  const opponentStats = chelseaIsHome
-    ? aggregates.awayTeam
-    : aggregates.homeTeam;
+  // Calculate stats from actual matches (more reliable than aggregates)
+  const { chelseaWins, draws, opponentWins, opponentName } = calculateStats(matches);
+  const total = chelseaWins + draws + opponentWins;
 
-  const total = aggregates.numberOfMatches;
-  const chelseaWinPct = (chelseaStats.wins / total) * 100;
-  const drawPct = (chelseaStats.draws / total) * 100;
-  const opponentWinPct = (opponentStats.wins / total) * 100;
+  const chelseaWinPct = total > 0 ? (chelseaWins / total) * 100 : 0;
+  const drawPct = total > 0 ? (draws / total) * 100 : 0;
+  const opponentWinPct = total > 0 ? (opponentWins / total) * 100 : 0;
 
   // Recent encounters (last 5)
   const recent = matches.slice(0, 5);
@@ -43,13 +71,13 @@ export function HeadToHead({ data }: HeadToHeadProps) {
         <div>
           <div className="flex justify-between text-xs mb-1">
             <span className="font-semibold">
-              Chelsea {chelseaStats.wins}
+              Chelsea {chelseaWins}
             </span>
             <span className="text-muted-foreground">
-              {chelseaStats.draws} draws
+              {draws} draws
             </span>
             <span className="font-semibold">
-              {opponentStats.name} {opponentStats.wins}
+              {opponentName} {opponentWins}
             </span>
           </div>
           <div className="flex h-3 rounded-full overflow-hidden">
@@ -91,8 +119,8 @@ export function HeadToHead({ data }: HeadToHeadProps) {
                     key={match.id}
                     className="flex items-center justify-between text-xs py-1.5 border-b last:border-0"
                   >
-                    <span className="text-muted-foreground w-20 shrink-0">
-                      {formatMatchDate(match.utcDate).split(",")[0]}
+                    <span className="text-muted-foreground w-16 shrink-0">
+                      {formatShortDate(match.utcDate)}
                     </span>
                     <div className="flex items-center gap-2 flex-1 justify-center">
                       <span

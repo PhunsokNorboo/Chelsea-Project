@@ -152,3 +152,13 @@ export function positionGroupLabel(position: string): string {
   };
   return map[position] ?? position;
 }
+
+export function getProxiedImageUrl(url: string): string {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  if (!cloudName) {
+    // Fallback to wsrv.nl if no Cloudinary configured
+    return `https://wsrv.nl/?url=${encodeURIComponent(url)}`;
+  }
+  // Cloudinary fetch with auto format/quality
+  return `https://res.cloudinary.com/${cloudName}/image/fetch/f_auto,q_auto/${encodeURIComponent(url)}`;
+}

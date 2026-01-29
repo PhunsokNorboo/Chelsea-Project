@@ -13,6 +13,7 @@ import {
   getStandings,
   getTeam,
   getScorers,
+  getClScorers,
   getNextMatch,
   getRecentForm,
   getCompetitionFilter,
@@ -21,11 +22,12 @@ import {
 export const revalidate = 60;
 
 export default async function Home() {
-  const [matches, standingsData, team, scorersData] = await Promise.all([
+  const [matches, standingsData, team, plScorers, clScorers] = await Promise.all([
     getMatches(),
     getStandings(),
     getTeam(),
     getScorers(),
+    getClScorers(),
   ]);
 
   const nextMatch = getNextMatch(matches);
@@ -39,8 +41,6 @@ export default async function Home() {
     standingsData?.standings?.find((s) => s.type === "TOTAL")?.table ?? [];
   const chelseaEntry = plStandings.find((e) => e.team.id === 61);
   const chelseaPosition = chelseaEntry?.position ?? 0;
-
-  const scorers = scorersData?.scorers ?? [];
 
   return (
     <div className="container mx-auto px-4 py-6 space-y-8">
@@ -69,7 +69,7 @@ export default async function Home() {
             />
           )}
 
-          <SeasonStats scorers={scorers} />
+          <SeasonStats plScorers={plScorers?.scorers ?? []} clScorers={clScorers?.scorers ?? []} />
 
           {team && <ClubInfo team={team} />}
         </aside>

@@ -1,6 +1,6 @@
 # Chelsea FC Hub
 
-A comprehensive Chelsea FC information hub built with Next.js — fixtures, squad, news, standings, and more.
+A comprehensive Chelsea FC information hub built with Next.js — fixtures, squad, news, standings, history, and more.
 
 ## Quick Start
 
@@ -30,11 +30,13 @@ src/
 │   ├── layout.tsx              # Root layout, ThemeProvider, Header, Footer
 │   ├── page.tsx                # Home dashboard — fixtures, form, standings, club info, stats
 │   ├── globals.css             # Tailwind config + Chelsea theme CSS variables
-│   ├── match/[id]/page.tsx     # Match detail — scorers, venue, referee
+│   ├── match/[id]/page.tsx     # Match detail — scorers, venue, referee, head-to-head
 │   ├── squad/page.tsx          # Full squad roster + loans tab
 │   ├── player/[id]/page.tsx    # Individual player detail
 │   ├── news/page.tsx           # News feed (RSS) + curated tweet wall
-│   └── standings/page.tsx      # Full 20-team PL table
+│   ├── standings/page.tsx      # Full 20-team PL table
+│   ├── history/page.tsx        # Club history — trophies, legends, records, milestones
+│   └── offline/page.tsx        # PWA offline fallback page
 ├── components/
 │   ├── ui/                     # shadcn primitives (card, badge, tabs, separator, skeleton, button, dropdown-menu, avatar, sheet)
 │   ├── header.tsx              # Sticky nav bar with desktop nav + mobile hamburger
@@ -51,7 +53,10 @@ src/
 │   ├── loan-player-card.tsx    # Loan player card with dashed border
 │   ├── squad-roster.tsx        # Tabbed squad roster (client component)
 │   ├── club-info.tsx           # Club info card (stadium, coach, founded)
-│   ├── season-stats.tsx        # Chelsea PL top scorers/assists
+│   ├── season-stats.tsx        # Chelsea scorers/assists with competition filter (PL/UCL)
+│   ├── head-to-head.tsx        # H2H stats and recent encounters for match detail
+│   ├── trophy-card.tsx         # Trophy display card with local image
+│   ├── legend-card.tsx         # Club legend card with photo/initials avatar
 │   ├── news-feed.tsx           # RSS article list
 │   ├── news-article-card.tsx   # Single news article card
 │   ├── tweet-wall.tsx          # Curated tweets via react-tweet
@@ -59,12 +64,17 @@ src/
 │   └── theme-toggle.tsx        # Light/Dark/System dropdown
 ├── data/
 │   ├── loans.json              # Static loan player data (manual updates)
-│   └── curated-tweets.json     # Curated tweet IDs for the news page
-└── lib/
-    ├── api.ts                  # football-data.org fetch helpers
-    ├── rss.ts                  # RSS feed parser (BBC Sport, Guardian, etc.)
-    ├── types.ts                # TypeScript types for all API responses
-    └── utils.ts                # cn(), date formatting, age calc, initials
+│   ├── curated-tweets.json     # Curated tweet IDs for the news page
+│   └── history.json            # Club history — trophies, legends, records, milestones
+├── lib/
+│   ├── api.ts                  # football-data.org fetch helpers
+│   ├── rss.ts                  # RSS feed parser (BBC Sport, Guardian, etc.)
+│   ├── types.ts                # TypeScript types for all API responses
+│   └── utils.ts                # cn(), date formatting, age calc, initials
+└── public/
+    └── images/
+        ├── trophies/           # Local trophy images (9 trophies)
+        └── legends/            # Local legend photos (10 players)
 ```
 
 ## Data Sources
@@ -82,10 +92,12 @@ src/
 | `getUpcomingMatches()` | `/teams/61/matches?status=SCHEDULED,TIMED` | 60s | Future matches only |
 | `getResults()` | `/teams/61/matches?status=FINISHED&limit=15` | 60s | Past results |
 | `getMatch(id)` | `/matches/{id}` | 30s | Single match with goals, referees |
+| `getHead2Head(id)` | `/matches/{id}/head2head?limit=10` | 120s | H2H stats and recent encounters |
 | `getStandings()` | `/competitions/PL/standings` | 60s | Full Premier League table |
 | `getTeam()` | `/teams/61` | 120s | Squad, coach, venue, founded |
 | `getPerson(id)` | `/persons/{id}` | 120s | Individual player detail |
 | `getScorers()` | `/competitions/PL/scorers?limit=50` | 120s | PL top scorers (filtered for Chelsea) |
+| `getClScorers()` | `/competitions/CL/scorers?limit=50` | 120s | UCL top scorers (filtered for Chelsea) |
 
 All functions return `null` (or `[]`) on failure — the UI handles missing data gracefully.
 
@@ -97,6 +109,18 @@ Aggregates news from BBC Sport Chelsea, The Guardian Chelsea, and Football365. U
 
 - **`loans.json`** — Chelsea players currently on loan. Needs manual updates during transfer windows (January and summer). Has a `lastUpdated` field to track staleness.
 - **`curated-tweets.json`** — Tweet IDs to display on the news page. Add IDs from accounts like @FabrizioRomano, @ChelseaFC. react-tweet renders them as server components with no API keys needed.
+- **`history.json`** — Club history data including trophies, legends, records, and milestones. Images reference local files in `public/images/`.
+
+### Local Images (public/images/)
+
+Trophy and legend images are stored locally because Wikipedia blocks hotlinking and proxy services.
+
+**Trophies** (`public/images/trophies/`):
+- premier-league.jpg, champions-league.jpg, europa-league.jpg, fa-cup.jpg, league-cup.jpg, cup-winners-cup.jpg, super-cup.png, club-world-cup.png, community-shield.jpg
+
+**Legends** (`public/images/legends/`):
+- frank-lampard.jpg, john-terry.jpg, didier-drogba.jpg, eden-hazard.jpg, gianfranco-zola.jpg, petr-cech.jpg, ashley-cole.jpg, marcel-desailly.jpg, ngolo-kante.jpg, dennis-wise.jpg
+- 5 legends (Harris, Osgood, Dixon, Greaves, Tambling) use initials fallback (no free images available)
 
 ## Caching Strategy
 
@@ -104,11 +128,12 @@ Aggregates news from BBC Sport Chelsea, The Guardian Chelsea, and Football365. U
 |---|---|---|
 | Matches / Standings | 60s | Updates during matchdays |
 | Match detail | 30s | Needs freshness during live matches |
+| Head-to-Head | 120s | Historical data, changes rarely |
 | Team / Person / Scorers | 120s | Changes rarely |
 | RSS news feeds | 300s (5 min) | RSS sources update every 5-15 min |
-| Loans / Tweets JSON | Build time | Changes only via git commits |
+| Loans / Tweets / History JSON | Build time | Changes only via git commits |
 
-Rate limit budget: worst case ~8 unique API calls per 2-minute window, well under the 20 allowed.
+Rate limit budget: worst case ~10 unique API calls per 2-minute window, well under the 20 allowed.
 
 ## Theming
 
@@ -122,9 +147,10 @@ Tailwind classes: `bg-chelsea-blue`, `text-chelsea-gold`, `bg-win`, `bg-draw`, `
 
 ## Architecture Decisions
 
-- **Server components by default.** Client components only when interactivity is needed: `countdown.tsx`, `fixtures-list.tsx`, `squad-roster.tsx`, `mobile-nav.tsx`, `nav-links.tsx`, `theme-toggle.tsx`.
+- **Server components by default.** Client components only when interactivity is needed: `countdown.tsx`, `fixtures-list.tsx`, `squad-roster.tsx`, `mobile-nav.tsx`, `nav-links.tsx`, `theme-toggle.tsx`, `season-stats.tsx`.
 - **No client-side data fetching.** Data comes from server components via `fetch` + ISR.
 - **External images use `<img>` tags.** Avoids Next.js Image optimization overhead for small SVG crests.
+- **Local images for history page.** Wikipedia blocks hotlinking; images stored in `public/images/`.
 - **Loans are static JSON** because the football-data.org API has no transfers endpoint.
 - **Tweets are curated** because Twitter API access requires paid keys. react-tweet uses the free syndication API.
 
@@ -141,3 +167,11 @@ Tailwind classes: `bg-chelsea-blue`, `text-chelsea-gold`, `bg-win`, `bg-draw`, `
 **Add a new RSS feed**: Add an entry to the `FEEDS` array in `src/lib/rss.ts`. Set `filterChelsea: true` if it's a general football feed.
 
 **Add shadcn components**: `bunx --bun shadcn@latest add <component-name>`. Config is in `components.json`.
+
+**Add/update history data**: Edit `src/data/history.json`. For new images, download to `public/images/trophies/` or `public/images/legends/` and update the `image` field path.
+
+## API Limitations (Free Tier)
+
+- **No goal details in match lists** — Goals/scorers only available via individual match detail API calls
+- **No FA Cup data** — FA Cup is not included in the free tier
+- **Rate limited** — 10 requests/minute max

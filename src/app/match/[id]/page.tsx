@@ -97,47 +97,49 @@ function MatchContent({ match }: { match: MatchDetailResponse }) {
           </div>
         </div>
 
-        {/* Match Timeline */}
-        {match.goals && match.goals.length > 0 && (
+        {/* Goals section */}
+        {isFinished && (
           <>
             <Separator className="my-4" />
-            <MatchTimeline
-              goals={match.goals}
-              homeTeamId={match.homeTeam.id}
-            />
-          </>
-        )}
-
-        {/* Goals list */}
-        {match.goals && match.goals.length > 0 && (
-          <>
-            <Separator className="my-4" />
-            <div>
-              <h3 className="font-semibold mb-3">Goals</h3>
-              <div className="space-y-2">
-                {match.goals.map((goal, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center justify-between text-sm"
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">{goal.scorer.name}</span>
-                      {goal.assist && (
-                        <span className="text-muted-foreground text-xs">
-                          (ast. {goal.assist.name})
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-muted-foreground text-xs">
-                      {goal.minute}&apos;
-                      {goal.injuryTime ? `+${goal.injuryTime}` : ""}
-                      {goal.type === "OWN" && " (OG)"}
-                      {goal.type === "PENALTY" && " (P)"}
-                    </div>
+            {match.goals && match.goals.length > 0 ? (
+              <>
+                <MatchTimeline
+                  goals={match.goals}
+                  homeTeamId={match.homeTeam.id}
+                />
+                <Separator className="my-4" />
+                <div>
+                  <h3 className="font-semibold mb-3">Goals</h3>
+                  <div className="space-y-2">
+                    {match.goals.map((goal, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center justify-between text-sm"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{goal.scorer.name}</span>
+                          {goal.assist && (
+                            <span className="text-muted-foreground text-xs">
+                              (ast. {goal.assist.name})
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-muted-foreground text-xs">
+                          {goal.minute}&apos;
+                          {goal.injuryTime ? `+${goal.injuryTime}` : ""}
+                          {goal.type === "OWN" && " (OG)"}
+                          {goal.type === "PENALTY" && " (P)"}
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground text-center py-2">
+                Goal details not available on free API tier
+              </p>
+            )}
           </>
         )}
 
@@ -203,6 +205,9 @@ export default async function MatchPage({ params }: PageProps) {
     getHead2Head(matchId, 10),
   ]);
   if (!match) notFound();
+
+  // Debug: log goals data
+  console.log(`Match ${matchId} goals:`, match.goals);
 
   const isLive = match.status === "IN_PLAY" || match.status === "PAUSED";
 

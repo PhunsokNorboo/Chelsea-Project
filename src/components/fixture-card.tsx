@@ -6,6 +6,11 @@ import { formatMatchDate, formatMatchTime, competitionShortName } from "@/lib/ut
 
 const CHELSEA_ID = 61;
 
+function getLastName(fullName: string): string {
+  const parts = fullName.split(" ");
+  return parts[parts.length - 1];
+}
+
 interface FixtureCardProps {
   match: Match;
 }
@@ -14,6 +19,10 @@ export function FixtureCard({ match }: FixtureCardProps) {
   const isFinished = match.status === "FINISHED";
   const isLive = match.status === "IN_PLAY" || match.status === "PAUSED";
   const isHome = match.homeTeam.id === CHELSEA_ID;
+
+  // Group goals by team
+  const homeGoals = match.goals?.filter((g) => g.team.id === match.homeTeam.id) ?? [];
+  const awayGoals = match.goals?.filter((g) => g.team.id === match.awayTeam.id) ?? [];
 
   let resultClass = "";
   if (isFinished) {
@@ -108,14 +117,29 @@ export function FixtureCard({ match }: FixtureCardProps) {
             </div>
           </div>
 
-          {!isFinished && !isLive && (
-            <p className="text-[11px] text-muted-foreground mt-1">
-              {formatMatchDate(match.utcDate)}
-            </p>
-          )}
-          {isFinished && (
-            <p className="text-[11px] text-muted-foreground mt-1">
-              {formatMatchDate(match.utcDate)}
+          <p className="text-[11px] text-muted-foreground mt-1">
+            {formatMatchDate(match.utcDate)}
+          </p>
+
+          {isFinished && (homeGoals.length > 0 || awayGoals.length > 0) && (
+            <p className="text-[10px] text-muted-foreground mt-0.5 truncate">
+              {homeGoals.length > 0
+                ? homeGoals
+                    .map(
+                      (g) =>
+                        `${getLastName(g.scorer.name)} ${g.minute}'${g.type === "PENALTY" ? " (P)" : ""}${g.type === "OWN" ? " (OG)" : ""}`
+                    )
+                    .join(", ")
+                : "—"}
+              {" | "}
+              {awayGoals.length > 0
+                ? awayGoals
+                    .map(
+                      (g) =>
+                        `${getLastName(g.scorer.name)} ${g.minute}'${g.type === "PENALTY" ? " (P)" : ""}${g.type === "OWN" ? " (OG)" : ""}`
+                    )
+                    .join(", ")
+                : "—"}
             </p>
           )}
         </CardContent>

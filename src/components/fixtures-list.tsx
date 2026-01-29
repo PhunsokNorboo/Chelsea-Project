@@ -17,16 +17,19 @@ export function FixturesList({ matches, competitions }: FixturesListProps) {
   const [tab, setTab] = useState<FilterTab>("all");
   const [compFilter, setCompFilter] = useState<string>("all");
 
-  const filtered = matches.filter((m) => {
-    if (tab === "upcoming" && m.status === "FINISHED") return false;
-    if (
-      tab === "results" &&
-      m.status !== "FINISHED"
-    )
-      return false;
-    if (compFilter !== "all" && m.competition.name !== compFilter) return false;
-    return true;
-  });
+  const filtered = matches
+    .filter((m) => {
+      if (tab === "upcoming" && m.status === "FINISHED") return false;
+      if (tab === "results" && m.status !== "FINISHED") return false;
+      if (compFilter !== "all" && m.competition.name !== compFilter) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      const aTime = new Date(a.utcDate).getTime();
+      const bTime = new Date(b.utcDate).getTime();
+      // Results: descending (latest first), Upcoming/All: ascending (chronological)
+      return tab === "results" ? bTime - aTime : aTime - bTime;
+    });
 
   // Group by month
   const grouped = filtered.reduce<Record<string, Match[]>>((acc, match) => {
