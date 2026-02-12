@@ -175,3 +175,46 @@ Tailwind classes: `bg-chelsea-blue`, `text-chelsea-gold`, `bg-win`, `bg-draw`, `
 - **No goal details in match lists** — Goals/scorers only available via individual match detail API calls
 - **No FA Cup data** — FA Cup is not included in the free tier
 - **Rate limited** — 10 requests/minute max
+
+---
+
+## Session Notes
+
+Session notes are stored in `.notes/` directory. When resuming work, read the latest session notes to understand where we left off.
+
+```bash
+ls -la .notes/
+cat .notes/2026-01-28-session.md  # Latest session
+```
+
+---
+
+## Rules for Claude (Learnings)
+
+### External Images
+- **Wikipedia blocks hotlinking** — Even proxy services (wsrv.nl, Cloudinary fetch) fail
+- **Always download images locally** — Store in `public/images/` for reliability
+- **Wikipedia URLs go stale** — Use Wikipedia API to find current URLs:
+  ```bash
+  curl "https://commons.wikimedia.org/w/api.php?action=query&titles=File:NAME.jpg&prop=imageinfo&iiprop=url&format=json"
+  ```
+
+### Shell Commands
+- **Use full paths for curl** — Shell aliases can interfere; use `/usr/bin/curl` if needed
+- **Quote paths with brackets** — Git commands need quoted paths: `"src/app/match/[id]/page.tsx"`
+
+### Fixtures Sort Order
+- **Results**: Newest first (descending by date)
+- **Upcoming**: Soonest first (ascending by date)
+- **All**: Chronological (ascending by date)
+
+### Date Formatting
+- **Don't use `.split(",")[0]`** — This breaks dates like "Sun, 25 Jan" → "Sun"
+- **Use proper date formatting**:
+  ```ts
+  new Date(utcDate).toLocaleDateString("en-GB", { day: "numeric", month: "short" })
+  ```
+
+### API Data
+- **Don't trust aggregates** — Calculate stats from actual match data when possible
+- **Check free tier limits first** — Before promising features, verify the API supports it
